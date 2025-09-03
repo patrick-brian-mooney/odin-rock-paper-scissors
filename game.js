@@ -1,6 +1,3 @@
-let humanScore = 0
-let computerScore = 0
-
 function getComputerChoice() {
     if (Math.random() <= (1/3)) {
         return "rock"
@@ -24,15 +21,36 @@ function getHumanChoice() {
     return resp
 }
 
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice == computerChoice) {
-        console.log('tie');
-    } else if ((humanChoice == 'rock' && computerChoice == 'paper') || (humanChoice == 'paper' && computerChoice == 'scissors') || (humanChoice == 'scissors' && computerChoice == 'rock')) {
-        console.log('You lose! ' + computerChoice + ' beats ' + humanChoice);
-        humanScore++ ;
+
+function playGame() {
+    let humanScore = 0
+    let computerScore = 0
+
+    function playRound(humanChoice, computerChoice) {
+        if (humanChoice == computerChoice) {
+            console.log('tie');
+        } else if ((humanChoice == 'rock' && computerChoice == 'paper') || (humanChoice == 'paper' && computerChoice == 'scissors') || (humanChoice == 'scissors' && computerChoice == 'rock')) {
+            console.log('You lose! ' + computerChoice + ' beats ' + humanChoice);
+            humanScore++ ;
+        } else {
+            console.log('You win! ' + humanChoice + ' beats ' + computerChoice)
+            computerScore++ ; 
+        }
+    }
+
+    for (let i = 1; i <= 5; i++) {
+        console.log('Round ' + i)
+        let human = getHumanChoice()
+        let comp = getComputerChoice()
+        playRound(human, comp);
+    }
+
+    console.log("Overall human score: " + humanScore);
+    console.log("Overall computer score: " + computerScore);
+    if (humanScore == computerScore) {
+        console.log("Game is tied!")
     } else {
-        console.log('You win! ' + humanChoice + ' beats ' + computerChoice)
-        computerScore++ ; 
+        console.log(((humanScore > computerScore) ? 'Human' : 'Computer') + ' player wins this game!')
     }
 }
 
