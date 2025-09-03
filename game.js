@@ -24,4 +24,16 @@ function getHumanChoice() {
     return resp
 }
 
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice == computerChoice) {
+        console.log('tie');
+    } else if ((humanChoice == 'rock' && computerChoice == 'paper') || (humanChoice == 'paper' && computerChoice == 'scissors') || (humanChoice == 'scissors' && computerChoice == 'rock')) {
+        console.log('You lose! ' + computerChoice + ' beats ' + humanChoice);
+        humanScore++ ;
+    } else {
+        console.log('You win! ' + humanChoice + ' beats ' + computerChoice)
+        computerScore++ ; 
+    }
+}
+
 console.log('... JavaScript code loaded!')
