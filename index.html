@@ -4,13 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odin Rock-Paper-Scissors Game</title>
-    <script src="game.js"></script>
+    
+    <style>
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            margin: 0 auto;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            flex-grow: 1;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            font-family: Arial,Helvetica,sans-serif;
+        }
+        
+        footer {
+            margin: auto 2em 1em;
+            padding: 1em 2em;
+            background-color: lavender;
+            border: 3px ridge #aaa;
+            text-align: center;
+            border-radius: 1em;
+        }
+
+        #status-display {
+            background: #ccc;
+            border: 2px solid black;
+            padding: 0.5em;
+            margin: 0.75em auto;
+            border-radius: 0.5em;
+            max-width: 800px;
+        }
+
+        #narrative {
+            border: 3px groove #777;
+            padding: 1em;
+            margin: 1em auto;
+            border-radius: 0.25em;
+            background: #eee;
+            max-width: 800px;
+        }
+        
+        #buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        #buttons .button {
+            /* flex: 1 1 auto; */
+            width: 150px;
+            margin: 6px;
+        }
+    </style>
+    
+    <script src="game.js" defer></script>
 </head>
 <body>
-    <h1>Odin Rock-Paper-Scissors Game</h1>
+    <div class="main">
+        <h1>Odin Project Rock-Paper-Scissors Game</h1>
 
-    <p>This is an <a rel="muse" href="https://www.theodinproject.com/">Odin Project</a> assignment to create an elementary JavaScript rock-paper-scissors game. The original assignment is <a rel="muse" href="https://www.theodinproject.com/lessons/foundations-rock-paper-scissors">here</a>.</p>
-    
-    <p>This game runs in the browser console, not on the page itself, in accordance with what the assignment asked for.</p>
+        <div id="status-display">
+        </div>
+
+        <div id="narrative">
+        </div>
+
+        <div id="buttons">
+            <button class="button" id="rock">Rock</button>
+            <button class="button" id="paper">Paper</button>
+            <button class="button" id="scissors">Scissors</button>
+        </div>
+    </div>
+
+    <footer>This is an <a rel="muse" href="https://www.theodinproject.com/">Odin Project</a> assignment to create an elementary JavaScript rock-paper-scissors game. The original assignment is <a rel="muse" href="https://www.theodinproject.com/lessons/foundations-rock-paper-scissors">here</a>. The revised version is <a rel="muse" href="">here</a>.</footer>
+
 </body>
 </html>

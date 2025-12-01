@@ -1,3 +1,7 @@
+var humanScore = 0;
+var computerScore = 0;
+var ties = 0;
+
 function getComputerChoice() {
     if (Math.random() <= (1/3)) {
         return "rock"
@@ -8,50 +12,98 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let attempts = 0
-    let resp = null
+function setScoreText() {
+    const statusNode = document.querySelector('#status-display');
 
-    while (resp != 'rock' && resp != 'paper' & resp != 'scissors') {
-        resp = prompt((attempts > 0) ? 'That is not a valid choice. Rock, paper, or scissors?' : 'What move do you make?')
-        resp = resp.trim().toLowerCase()
-        attempts++
-    }
-
-    return resp
+    statusNode.innerHTML = `<h2>Scoreboard</h2>
+    <p>Human wins: ${humanScore}</p>
+    <p>Computer wins: ${computerScore}</p>
+    <p>Ties: ${ties}</p>
+    <p>Total games: ${humanScore + computerScore + ties}</p>`;
 }
 
+function upperFirst(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
 
-function playGame() {
-    let humanScore = 0
-    let computerScore = 0
+function checkForGameEnd() {
+    console.log('Checking for game end ...')
+    if ((humanScore >= 5) || (computerScore >= 5)) {
+        console.log('Game should be over!')
+        const narrNode = document.querySelector('#status-display');
 
-    function playRound(humanChoice, computerChoice) {
+        let newPara = document.createElement('div');
+        newPara.innerHTML = `<h3><strong>${(humanScore >= 5)?'Human':'Machine'} victory!</strong></h3><p>Reload page to play another round.</p>`;
+        narrNode.appendChild(newPara);
+
+        const rockBut = document.querySelector('#rock');
+        const paperBut = document.querySelector('#paper');
+        const scissorsBut = document.querySelector('#scissors');
+
+        rockBut.disabled = true;
+        paperBut.disabled = true;
+        scissorsBut.disabled = true;
+    }
+}
+
+function playRound(humanChoice, computerChoice) {
+    // If humanChoice and computerChoice are specified, play a round and update
+    // the stats; otherwise, just provide default text in the relevant panes
+    const narrNode = document.querySelector('#narrative');
+    let text = '';
+
+    if ((humanChoice !== undefined) && (computerChoice !== undefined)) {
         if (humanChoice == computerChoice) {
-            console.log('tie');
+            ties = ties + 1;
+            text = `<p>Tie! We both picked ${humanChoice}.`;
         } else if ((humanChoice == 'rock' && computerChoice == 'paper') || (humanChoice == 'paper' && computerChoice == 'scissors') || (humanChoice == 'scissors' && computerChoice == 'rock')) {
-            console.log('You lose! ' + computerChoice + ' beats ' + humanChoice);
-            humanScore++ ;
+            computerScore = computerScore + 1;
+            text = `<p>You lose! ${upperFirst(computerChoice)} beats ${humanChoice}.</p>`;
         } else {
-            console.log('You win! ' + humanChoice + ' beats ' + computerChoice)
-            computerScore++ ; 
+            humanScore = humanScore + 1;
+            text = `<p>You win! ${upperFirst(humanChoice)} beats ${computerChoice}.</p>`;
         }
     }
 
-    for (let i = 1; i <= 5; i++) {
-        console.log('Round ' + i)
-        let human = getHumanChoice()
-        let comp = getComputerChoice()
-        playRound(human, comp);
-    }
+    setScoreText();
 
-    console.log("Overall human score: " + humanScore);
-    console.log("Overall computer score: " + computerScore);
-    if (humanScore == computerScore) {
-        console.log("Game is tied!")
-    } else {
-        console.log(((humanScore > computerScore) ? 'Human' : 'Computer') + ' player wins this game!')
-    }
+    text = text + '<p>Make your choice below; I will make my own choice at the same time.</p>';
+    narrNode.innerHTML = text;
+
+    checkForGameEnd();
 }
+
+function handleRock(evt) {
+    evt.preventDefault();
+    playRound('rock', getComputerChoice());
+}
+
+function handlePaper(evt) {
+    evt.preventDefault();
+    playRound('paper', getComputerChoice());
+}
+
+function handleScissors(evt) {
+    evt.preventDefault();
+    playRound('scissors', getComputerChoice());
+}
+
+function setup() {
+    humanScore = 0;
+    computerScore = 0;
+    ties = 0;
+
+    playRound();
+
+    const rockBut = document.querySelector('#rock');
+    const paperBut = document.querySelector('#paper');
+    const scissorsBut = document.querySelector('#scissors');
+
+    rockBut.onclick = handleRock;
+    paperBut.onclick = handlePaper;
+    scissorsBut.onclick = handleScissors;
+}
+
+setup();
 
 console.log('... JavaScript code loaded!')
